@@ -1,0 +1,326 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=water_drop" />
+<link rel="stylesheet" href="style.css">
+<div class="other-parts">
+    <button onclick="reload()"><svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#5f6368"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg></button>
+    <a href="water.html" style="margin-left: 12pc;"><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="M491-200q12-1 20.5-9.5T520-230q0-14-9-22.5t-23-7.5q-41 3-87-22.5T343-375q-2-11-10.5-18t-19.5-7q-14 0-23 10.5t-6 24.5q17 91 80 130t127 35ZM480-80q-137 0-228.5-94T160-408q0-100 79.5-217.5T480-880q161 137 240.5 254.5T800-408q0 140-91.5 234T480-80Zm0-80q104 0 172-70.5T720-408q0-73-60.5-165T480-774Q361-665 300.5-573T240-408q0 107 68 177.5T480-160Zm0-320Z"/></svg></a>
+    <a href="food.html"><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="M283.33-80v-367.33q-51.66-12-87.5-53.67Q160-542.67 160-600v-280h66.67v280h56.66v-280H350v280h56.67v-280h66.66v280q0 57.33-35.83 99T350-447.33V-80h-66.67Zm410 0v-320H576.67v-296.67q0-80.33 51.5-131.83Q679.67-880 760-880v800h-66.67Z"/></svg></a>
+    <a href="habits.html"><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="M530-40v-239.33L430-372l-41.33 184L120-243.33l12.67-64 196.66 40 70-354-90.66 40.66V-446H242v-179.33L404-694q33-14.33 47.5-18.17Q466-716 480-716q20.33 0 36.67 9.33Q533-697.33 544-680l41.33 66q26 42 70.84 71.67Q701-512.67 760-512.67V-446q-66.67 0-120.83-29.83Q585-505.67 542-562l-34 145.33L596.67-334v294H530Zm10-709.33q-31 0-53.17-22.17-22.16-22.17-22.16-53.17t22.16-53.16Q509-900 540-900t53.17 22.17q22.16 22.16 22.16 53.16 0 31-22.16 53.17Q571-749.33 540-749.33Z"/></svg></a>
+</div>
+<div id="day-circles-container"></div>
+<div id="day-indicator">Click "Start" to begin</div>
+<div class="button-con">
+<button class="button" id="start-button">Start</button>
+<button class="button" id="next-button" disabled>Next</button>
+<button class="button" id="done-button" disabled>Done</button>
+</div>
+<div id="task-container">
+    <p id="day-title"></p>
+    <image id="task-video" controls></image>
+    <p id="timer"></p>
+    <p id="repetition-display"></p>
+    <p id="task-display"></p>
+</div>
+<audio id="initial-start-sound" src="counter.mp3"></audio>
+<audio id="start-sound" src="start.mp3"></audio>
+<audio id="finish-sound" src="finish.mp3"></audio>
+<script>
+    function reload(){
+        location.reload();
+    }
+</script>
+<script>
+  const weeklyTasks = {
+            "Day 1": [
+                { name: "Plank", work: "Hold yourself up on the ground with your forearms and toes. Your back and legs should be as straight as possible. Clasp your hands if it helps you balance.", imageSrc: "https://www.inspireusafoundation.org/wp-content/uploads/2023/07/plank-benefits.png" , timer: true},
+                { name: "Bicycle Crunches", work: "Lay down on your back with your legs long on the mat. Make sure to keep your lower back rooted into the mat by tucking your pelvis down.Bring your legs to tabletop position.Lift your head, neck, and shoulders up as you twist your body, bringing your right knee to your left elbow.", imageSrc: "https://media.istockphoto.com/id/1499913156/vector/disabled-young-woman-doing-bicycle-crunch-exercise.jpg?s=612x612&w=0&k=20&c=1TMZD7fC7Fmk9UxDeFfcLl9a9VXQ1b3jF8nvzPxqtFE=" , times: 15 },
+                { name: "Leg Raises", work: "Raise your legs straight directly above the hips in an L-shaped position. Inhale as you lower your legs down, hovering about six inches above the mat. Pause for a brief hold. Exhale as you draw your belly button in towards your spine, lifting your legs back up to a 90-degree angle.", imageSrc: "https://www.shutterstock.com/image-illustration/lying-leg-raise-waist-exercise-260nw-2329917581.jpg" , times: 12},
+                { name: "Mountain Climbers", work: "Performed from a plank position, you'll alternate bringing one knee to your chest, then kick back out, speeding up each time until you're running against the floor.", imageSrc: "https://www.shutterstock.com/image-vector/senior-man-doing-mountain-climbers-260nw-2413835417.jpg" , timer : true},
+                { name: "Russian Twists", work: "Hold your arms straight in front of your chest, keeping your palms together. Then, twist, using your stomach and shoulders to rotate onto one shoulder. Keep your feet flat on the ground and your back straight while turning to the opposite side. It's important to maintain your posture throughout the entire exercise.", imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiMmh8lFM1H9lJYm-41uipls7oMuqaxKYKlA&s" , times: 15},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+                { name: "Plank", work: "Hold yourself up on the ground with your forearms and toes. Your back and legs should be as straight as possible. Clasp your hands if it helps you balance.", imageSrc: "https://www.inspireusafoundation.org/wp-content/uploads/2023/07/plank-benefits.png" , timer: true},
+                { name: "Bicycle Crunches", work: "Lay down on your back with your legs long on the mat. Make sure to keep your lower back rooted into the mat by tucking your pelvis down.Bring your legs to tabletop position.Lift your head, neck, and shoulders up as you twist your body, bringing your right knee to your left elbow.", imageSrc: "https://media.istockphoto.com/id/1499913156/vector/disabled-young-woman-doing-bicycle-crunch-exercise.jpg?s=612x612&w=0&k=20&c=1TMZD7fC7Fmk9UxDeFfcLl9a9VXQ1b3jF8nvzPxqtFE=" , times: 15 },
+                { name: "Leg Raises", work: "Raise your legs straight directly above the hips in an L-shaped position. Inhale as you lower your legs down, hovering about six inches above the mat. Pause for a brief hold. Exhale as you draw your belly button in towards your spine, lifting your legs back up to a 90-degree angle.", imageSrc: "https://www.shutterstock.com/image-illustration/lying-leg-raise-waist-exercise-260nw-2329917581.jpg" , times: 12},
+                { name: "Mountain Climbers", work: "Performed from a plank position, you'll alternate bringing one knee to your chest, then kick back out, speeding up each time until you're running against the floor.", imageSrc: "https://www.shutterstock.com/image-vector/senior-man-doing-mountain-climbers-260nw-2413835417.jpg" , timer : true},
+                { name: "Russian Twists", work: "Hold your arms straight in front of your chest, keeping your palms together. Then, twist, using your stomach and shoulders to rotate onto one shoulder. Keep your feet flat on the ground and your back straight while turning to the opposite side. It's important to maintain your posture throughout the entire exercise.", imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiMmh8lFM1H9lJYm-41uipls7oMuqaxKYKlA&s" , times: 15},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+            ],
+            "Tuesday": [
+                { name: "Flutter Kicks", work: "Lay on your back, extending your legs at a 45-degree angle.Lift your head, shoulders, and neck slightly off the ground.Start kicking your legs up and down, alternating as you go.", imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuknA0-wmsjxfjfw3UHMSklitEO6_FArjK8Q&s" , timer: true },
+                { name: "V-Ups", work: "Lie on your back with your arms extended above your head.Point your toes and engage your core to lift your feet about 6 inches off the floor.Exhale as you engage your core to lift your torso and legs at the same time to create a 'V' shape with your body.", times: 12, imageSrc: "https://cdn.shopify.com/s/files/1/1497/9682/files/V_Ups_with_Medicine_Ball.jpg?v=1668778918" },
+                { name: "Ab Wheel Rollouts", work: "Begin on your knees with the easy-grip handles firmly in your hands.Tighten your core muscles to stabilize your spine.First, roll the wheel straight out in front of you.Slowly roll the wheel back to the starting position, using your core to control the movement.", times: 10, imageSrc: "https://www.endomondo.com/wp-content/uploads/2024/01/Standard-Kneeling-Ab-Wheel-Rollouts-1.jpg" },
+                { name: "Toe Touches", work: "Lay on your back, with your legs extending up vertically towards the ceiling.Extend your arms forward, keeping them straight. They should be parallel to your legs.Crunch forwards, reaching up to your toes with your outstretched arms.", times: 15, imageSrc: "https://www.spotebi.com/wp-content/uploads/2016/01/toe-touch-exercise-illustration.jpg" },
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+            ],
+            "Wednesday": [
+                { name: "Push Ups", work: "Contract your abs and tighten your core by pulling your belly button toward your spine. Inhale as you slowly bend your elbows and lower yourself to the floor, until your elbows are at a 90-degree angle. Exhale while contracting your chest muscles and pushing back up through your hands, returning to the start position.", imageSrc: "https://th-i.thgim.com/public/sci-tech/health/vsuju8/article34301845.ece/alternates/FREE_1200/10MPHowto1" , times : 14},
+                { name: "Wide Push Ups", work: "Start in plank position with your hands wider than your shoulders.Face your fingers forward or slightly to the outside.Slowly bend your elbows out to the side as you lower your body toward the floor.Pause when your chest is just below your elbows.", imageSrc: "https://www.lyfta.app/thumbnails/13111201.jpg" , times: 8 },
+                { name: "Spider Man Push Ups", work: "Bend your elbows to a 45-degree angle as you lower your chest toward your hands on the floor. Lift your left leg, moving your knee toward your elbow. Pause for a moment in this position before lowering your leg and lifting your body again. Repeat this movement with your opposite leg on the next repetition.", imageSrc: "https://images.contentstack.io/v3/assets/blt45c082eaf9747747/blt3abae82dd3cb95c0/61f8246d110d4e7d7a02cc28/spiderman-pushups-_1232x630.png?width=1200&height=630&fit=crop" , times: 8},
+                { name: "Push Up And Roation", work: "With a flat back, slowly lower the body toward the floor, lowering and squeezing the shoulder blades. Push up to the starting position, then lift one up toward ceiling while rotating body. Repeat for the desired number of repetitions. Only move within the range that is controllable.", imageSrc: "https://fitliferegime.com/wp-content/uploads/2023/01/How-To-Do-Rotation-Push-Ups.webp" , times : 12},
+                { name: "Knee Push Ups", work: "Start at the top of the push up position with your hands on the floor, arms straight and underneath your shoulders. Step your knees back behind you so that there is a straight line through your body from your knees up to your head. Engage your glutes, tense your legs and brace your core to keep your body rigid.", imageSrc: "https://media.istockphoto.com/id/1281672733/vector/sport-woman-doing-exercise-with-one-leg-push-up-on-knee-in-2-steps.jpg?s=612x612&w=0&k=20&c=gdzoZnqeaFo8TvTgOclqjlnghhTCcPhSWuWzNH19Swc=" , times: 20},
+                { name: "Push Ups", work: "Contract your abs and tighten your core by pulling your belly button toward your spine. Inhale as you slowly bend your elbows and lower yourself to the floor, until your elbows are at a 90-degree angle. Exhale while contracting your chest muscles and pushing back up through your hands, returning to the start position.", imageSrc: "https://th-i.thgim.com/public/sci-tech/health/vsuju8/article34301845.ece/alternates/FREE_1200/10MPHowto1" , times : 14},
+                { name: "Wide Push Ups", work: "Start in plank position with your hands wider than your shoulders.Face your fingers forward or slightly to the outside.Slowly bend your elbows out to the side as you lower your body toward the floor.Pause when your chest is just below your elbows.", imageSrc: "https://www.lyfta.app/thumbnails/13111201.jpg" , times: 8 },
+                { name: "Spider Man Push Ups", work: "Bend your elbows to a 45-degree angle as you lower your chest toward your hands on the floor. Lift your left leg, moving your knee toward your elbow. Pause for a moment in this position before lowering your leg and lifting your body again. Repeat this movement with your opposite leg on the next repetition.", imageSrc: "https://images.contentstack.io/v3/assets/blt45c082eaf9747747/blt3abae82dd3cb95c0/61f8246d110d4e7d7a02cc28/spiderman-pushups-_1232x630.png?width=1200&height=630&fit=crop" , times: 8},
+                { name: "Push Up And Roation", work: "With a flat back, slowly lower the body toward the floor, lowering and squeezing the shoulder blades. Push up to the starting position, then lift one up toward ceiling while rotating body. Repeat for the desired number of repetitions. Only move within the range that is controllable.", imageSrc: "https://fitliferegime.com/wp-content/uploads/2023/01/How-To-Do-Rotation-Push-Ups.webp" , times : 12},
+                { name: "Knee Push Ups", work: "Start at the top of the push up position with your hands on the floor, arms straight and underneath your shoulders. Step your knees back behind you so that there is a straight line through your body from your knees up to your head. Engage your glutes, tense your legs and brace your core to keep your body rigid.", imageSrc: "https://media.istockphoto.com/id/1281672733/vector/sport-woman-doing-exercise-with-one-leg-push-up-on-knee-in-2-steps.jpg?s=612x612&w=0&k=20&c=gdzoZnqeaFo8TvTgOclqjlnghhTCcPhSWuWzNH19Swc=" , times: 20},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+            ],
+            "Thursday": [
+                { name: "Plank", work: "Hold yourself up on the ground with your forearms and toes. Your back and legs should be as straight as possible. Clasp your hands if it helps you balance.", imageSrc: "https://www.inspireusafoundation.org/wp-content/uploads/2023/07/plank-benefits.png" , timer: true},
+                { name: "Bicycle Crunches", work: "Lay down on your back with your legs long on the mat. Make sure to keep your lower back rooted into the mat by tucking your pelvis down.Bring your legs to tabletop position.Lift your head, neck, and shoulders up as you twist your body, bringing your right knee to your left elbow.", imageSrc: "https://media.istockphoto.com/id/1499913156/vector/disabled-young-woman-doing-bicycle-crunch-exercise.jpg?s=612x612&w=0&k=20&c=1TMZD7fC7Fmk9UxDeFfcLl9a9VXQ1b3jF8nvzPxqtFE=" , times: 15 },
+                { name: "Leg Raises", work: "Raise your legs straight directly above the hips in an L-shaped position. Inhale as you lower your legs down, hovering about six inches above the mat. Pause for a brief hold. Exhale as you draw your belly button in towards your spine, lifting your legs back up to a 90-degree angle.", imageSrc: "https://www.shutterstock.com/image-illustration/lying-leg-raise-waist-exercise-260nw-2329917581.jpg" , times: 12},
+                { name: "Mountain Climbers", work: "Performed from a plank position, you'll alternate bringing one knee to your chest, then kick back out, speeding up each time until you're running against the floor.", imageSrc: "https://www.shutterstock.com/image-vector/senior-man-doing-mountain-climbers-260nw-2413835417.jpg" , timer : true},
+                { name: "Russian Twists", work: "Hold your arms straight in front of your chest, keeping your palms together. Then, twist, using your stomach and shoulders to rotate onto one shoulder. Keep your feet flat on the ground and your back straight while turning to the opposite side. It's important to maintain your posture throughout the entire exercise.", imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiMmh8lFM1H9lJYm-41uipls7oMuqaxKYKlA&s" , times: 15},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+                { name: "Plank", work: "Hold yourself up on the ground with your forearms and toes. Your back and legs should be as straight as possible. Clasp your hands if it helps you balance.", imageSrc: "https://www.inspireusafoundation.org/wp-content/uploads/2023/07/plank-benefits.png" , timer: true},
+                { name: "Bicycle Crunches", work: "Lay down on your back with your legs long on the mat. Make sure to keep your lower back rooted into the mat by tucking your pelvis down.Bring your legs to tabletop position.Lift your head, neck, and shoulders up as you twist your body, bringing your right knee to your left elbow.", imageSrc: "https://media.istockphoto.com/id/1499913156/vector/disabled-young-woman-doing-bicycle-crunch-exercise.jpg?s=612x612&w=0&k=20&c=1TMZD7fC7Fmk9UxDeFfcLl9a9VXQ1b3jF8nvzPxqtFE=" , times: 15 },
+                { name: "Leg Raises", work: "Raise your legs straight directly above the hips in an L-shaped position. Inhale as you lower your legs down, hovering about six inches above the mat. Pause for a brief hold. Exhale as you draw your belly button in towards your spine, lifting your legs back up to a 90-degree angle.", imageSrc: "https://www.shutterstock.com/image-illustration/lying-leg-raise-waist-exercise-260nw-2329917581.jpg" , times: 12},
+                { name: "Mountain Climbers", work: "Performed from a plank position, you'll alternate bringing one knee to your chest, then kick back out, speeding up each time until you're running against the floor.", imageSrc: "https://www.shutterstock.com/image-vector/senior-man-doing-mountain-climbers-260nw-2413835417.jpg" , timer : true},
+                { name: "Russian Twists", work: "Hold your arms straight in front of your chest, keeping your palms together. Then, twist, using your stomach and shoulders to rotate onto one shoulder. Keep your feet flat on the ground and your back straight while turning to the opposite side. It's important to maintain your posture throughout the entire exercise.", imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiMmh8lFM1H9lJYm-41uipls7oMuqaxKYKlA&s" , times: 15},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+            ],
+            "Friday": [
+                { name: "Push Ups", work: "Contract your abs and tighten your core by pulling your belly button toward your spine. Inhale as you slowly bend your elbows and lower yourself to the floor, until your elbows are at a 90-degree angle. Exhale while contracting your chest muscles and pushing back up through your hands, returning to the start position.", imageSrc: "https://th-i.thgim.com/public/sci-tech/health/vsuju8/article34301845.ece/alternates/FREE_1200/10MPHowto1" , times : 14},
+                { name: "Wide Push Ups", work: "Start in plank position with your hands wider than your shoulders.Face your fingers forward or slightly to the outside.Slowly bend your elbows out to the side as you lower your body toward the floor.Pause when your chest is just below your elbows.", imageSrc: "https://www.lyfta.app/thumbnails/13111201.jpg" , times: 8 },
+                { name: "Spider Man Push Ups", work: "Bend your elbows to a 45-degree angle as you lower your chest toward your hands on the floor. Lift your left leg, moving your knee toward your elbow. Pause for a moment in this position before lowering your leg and lifting your body again. Repeat this movement with your opposite leg on the next repetition.", imageSrc: "https://images.contentstack.io/v3/assets/blt45c082eaf9747747/blt3abae82dd3cb95c0/61f8246d110d4e7d7a02cc28/spiderman-pushups-_1232x630.png?width=1200&height=630&fit=crop" , times: 8},
+                { name: "Push Up And Roation", work: "With a flat back, slowly lower the body toward the floor, lowering and squeezing the shoulder blades. Push up to the starting position, then lift one up toward ceiling while rotating body. Repeat for the desired number of repetitions. Only move within the range that is controllable.", imageSrc: "https://fitliferegime.com/wp-content/uploads/2023/01/How-To-Do-Rotation-Push-Ups.webp" , times : 12},
+                { name: "Knee Push Ups", work: "Start at the top of the push up position with your hands on the floor, arms straight and underneath your shoulders. Step your knees back behind you so that there is a straight line through your body from your knees up to your head. Engage your glutes, tense your legs and brace your core to keep your body rigid.", imageSrc: "https://media.istockphoto.com/id/1281672733/vector/sport-woman-doing-exercise-with-one-leg-push-up-on-knee-in-2-steps.jpg?s=612x612&w=0&k=20&c=gdzoZnqeaFo8TvTgOclqjlnghhTCcPhSWuWzNH19Swc=" , times: 20},
+                { name: "Push Ups", work: "Contract your abs and tighten your core by pulling your belly button toward your spine. Inhale as you slowly bend your elbows and lower yourself to the floor, until your elbows are at a 90-degree angle. Exhale while contracting your chest muscles and pushing back up through your hands, returning to the start position.", imageSrc: "https://th-i.thgim.com/public/sci-tech/health/vsuju8/article34301845.ece/alternates/FREE_1200/10MPHowto1" , times : 14},
+                { name: "Wide Push Ups", work: "Start in plank position with your hands wider than your shoulders.Face your fingers forward or slightly to the outside.Slowly bend your elbows out to the side as you lower your body toward the floor.Pause when your chest is just below your elbows.", imageSrc: "https://www.lyfta.app/thumbnails/13111201.jpg" , times: 8 },
+                { name: "Spider Man Push Ups", work: "Bend your elbows to a 45-degree angle as you lower your chest toward your hands on the floor. Lift your left leg, moving your knee toward your elbow. Pause for a moment in this position before lowering your leg and lifting your body again. Repeat this movement with your opposite leg on the next repetition.", imageSrc: "https://images.contentstack.io/v3/assets/blt45c082eaf9747747/blt3abae82dd3cb95c0/61f8246d110d4e7d7a02cc28/spiderman-pushups-_1232x630.png?width=1200&height=630&fit=crop" , times: 8},
+                { name: "Push Up And Roation", work: "With a flat back, slowly lower the body toward the floor, lowering and squeezing the shoulder blades. Push up to the starting position, then lift one up toward ceiling while rotating body. Repeat for the desired number of repetitions. Only move within the range that is controllable.", imageSrc: "https://fitliferegime.com/wp-content/uploads/2023/01/How-To-Do-Rotation-Push-Ups.webp" , times : 12},
+                { name: "Knee Push Ups", work: "Start at the top of the push up position with your hands on the floor, arms straight and underneath your shoulders. Step your knees back behind you so that there is a straight line through your body from your knees up to your head. Engage your glutes, tense your legs and brace your core to keep your body rigid.", imageSrc: "https://media.istockphoto.com/id/1281672733/vector/sport-woman-doing-exercise-with-one-leg-push-up-on-knee-in-2-steps.jpg?s=612x612&w=0&k=20&c=gdzoZnqeaFo8TvTgOclqjlnghhTCcPhSWuWzNH19Swc=" , times: 20},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+            ],
+            "Saturday": [
+                { name: "Plank", work: "Hold yourself up on the ground with your forearms and toes. Your back and legs should be as straight as possible. Clasp your hands if it helps you balance.", imageSrc: "https://www.inspireusafoundation.org/wp-content/uploads/2023/07/plank-benefits.png" , timer: true},
+                { name: "Bicycle Crunches", work: "Lay down on your back with your legs long on the mat. Make sure to keep your lower back rooted into the mat by tucking your pelvis down.Bring your legs to tabletop position.Lift your head, neck, and shoulders up as you twist your body, bringing your right knee to your left elbow.", imageSrc: "https://media.istockphoto.com/id/1499913156/vector/disabled-young-woman-doing-bicycle-crunch-exercise.jpg?s=612x612&w=0&k=20&c=1TMZD7fC7Fmk9UxDeFfcLl9a9VXQ1b3jF8nvzPxqtFE=" , times: 15 },
+                { name: "Leg Raises", work: "Raise your legs straight directly above the hips in an L-shaped position. Inhale as you lower your legs down, hovering about six inches above the mat. Pause for a brief hold. Exhale as you draw your belly button in towards your spine, lifting your legs back up to a 90-degree angle.", imageSrc: "https://www.shutterstock.com/image-illustration/lying-leg-raise-waist-exercise-260nw-2329917581.jpg" , times: 12},
+                { name: "Mountain Climbers", work: "Performed from a plank position, you'll alternate bringing one knee to your chest, then kick back out, speeding up each time until you're running against the floor.", imageSrc: "https://www.shutterstock.com/image-vector/senior-man-doing-mountain-climbers-260nw-2413835417.jpg" , timer : true},
+                { name: "Russian Twists", work: "Hold your arms straight in front of your chest, keeping your palms together. Then, twist, using your stomach and shoulders to rotate onto one shoulder. Keep your feet flat on the ground and your back straight while turning to the opposite side. It's important to maintain your posture throughout the entire exercise.", imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiMmh8lFM1H9lJYm-41uipls7oMuqaxKYKlA&s" , times: 15},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+                { name: "Plank", work: "Hold yourself up on the ground with your forearms and toes. Your back and legs should be as straight as possible. Clasp your hands if it helps you balance.", imageSrc: "https://www.inspireusafoundation.org/wp-content/uploads/2023/07/plank-benefits.png" , timer: true},
+                { name: "Bicycle Crunches", work: "Lay down on your back with your legs long on the mat. Make sure to keep your lower back rooted into the mat by tucking your pelvis down.Bring your legs to tabletop position.Lift your head, neck, and shoulders up as you twist your body, bringing your right knee to your left elbow.", imageSrc: "https://media.istockphoto.com/id/1499913156/vector/disabled-young-woman-doing-bicycle-crunch-exercise.jpg?s=612x612&w=0&k=20&c=1TMZD7fC7Fmk9UxDeFfcLl9a9VXQ1b3jF8nvzPxqtFE=" , times: 15 },
+                { name: "Leg Raises", work: "Raise your legs straight directly above the hips in an L-shaped position. Inhale as you lower your legs down, hovering about six inches above the mat. Pause for a brief hold. Exhale as you draw your belly button in towards your spine, lifting your legs back up to a 90-degree angle.", imageSrc: "https://www.shutterstock.com/image-illustration/lying-leg-raise-waist-exercise-260nw-2329917581.jpg" , times: 12},
+                { name: "Mountain Climbers", work: "Performed from a plank position, you'll alternate bringing one knee to your chest, then kick back out, speeding up each time until you're running against the floor.", imageSrc: "https://www.shutterstock.com/image-vector/senior-man-doing-mountain-climbers-260nw-2413835417.jpg" , timer : true},
+                { name: "Russian Twists", work: "Hold your arms straight in front of your chest, keeping your palms together. Then, twist, using your stomach and shoulders to rotate onto one shoulder. Keep your feet flat on the ground and your back straight while turning to the opposite side. It's important to maintain your posture throughout the entire exercise.", imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiMmh8lFM1H9lJYm-41uipls7oMuqaxKYKlA&s" , times: 15},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+            ],
+            "Sunday": [
+                { name: "Push Ups", work: "Contract your abs and tighten your core by pulling your belly button toward your spine. Inhale as you slowly bend your elbows and lower yourself to the floor, until your elbows are at a 90-degree angle. Exhale while contracting your chest muscles and pushing back up through your hands, returning to the start position.", imageSrc: "https://th-i.thgim.com/public/sci-tech/health/vsuju8/article34301845.ece/alternates/FREE_1200/10MPHowto1" , times : 14},
+                { name: "Wide Push Ups", work: "Start in plank position with your hands wider than your shoulders.Face your fingers forward or slightly to the outside.Slowly bend your elbows out to the side as you lower your body toward the floor.Pause when your chest is just below your elbows.", imageSrc: "https://www.lyfta.app/thumbnails/13111201.jpg" , times: 8 },
+                { name: "Spider Man Push Ups", work: "Bend your elbows to a 45-degree angle as you lower your chest toward your hands on the floor. Lift your left leg, moving your knee toward your elbow. Pause for a moment in this position before lowering your leg and lifting your body again. Repeat this movement with your opposite leg on the next repetition.", imageSrc: "https://images.contentstack.io/v3/assets/blt45c082eaf9747747/blt3abae82dd3cb95c0/61f8246d110d4e7d7a02cc28/spiderman-pushups-_1232x630.png?width=1200&height=630&fit=crop" , times: 8},
+                { name: "Push Up And Roation", work: "With a flat back, slowly lower the body toward the floor, lowering and squeezing the shoulder blades. Push up to the starting position, then lift one up toward ceiling while rotating body. Repeat for the desired number of repetitions. Only move within the range that is controllable.", imageSrc: "https://fitliferegime.com/wp-content/uploads/2023/01/How-To-Do-Rotation-Push-Ups.webp" , times : 12},
+                { name: "Knee Push Ups", work: "Start at the top of the push up position with your hands on the floor, arms straight and underneath your shoulders. Step your knees back behind you so that there is a straight line through your body from your knees up to your head. Engage your glutes, tense your legs and brace your core to keep your body rigid.", imageSrc: "https://media.istockphoto.com/id/1281672733/vector/sport-woman-doing-exercise-with-one-leg-push-up-on-knee-in-2-steps.jpg?s=612x612&w=0&k=20&c=gdzoZnqeaFo8TvTgOclqjlnghhTCcPhSWuWzNH19Swc=" , times: 20},
+                { name: "Push Ups", work: "Contract your abs and tighten your core by pulling your belly button toward your spine. Inhale as you slowly bend your elbows and lower yourself to the floor, until your elbows are at a 90-degree angle. Exhale while contracting your chest muscles and pushing back up through your hands, returning to the start position.", imageSrc: "https://th-i.thgim.com/public/sci-tech/health/vsuju8/article34301845.ece/alternates/FREE_1200/10MPHowto1" , times : 14},
+                { name: "Wide Push Ups", work: "Start in plank position with your hands wider than your shoulders.Face your fingers forward or slightly to the outside.Slowly bend your elbows out to the side as you lower your body toward the floor.Pause when your chest is just below your elbows.", imageSrc: "https://www.lyfta.app/thumbnails/13111201.jpg" , times: 8 },
+                { name: "Spider Man Push Ups", work: "Bend your elbows to a 45-degree angle as you lower your chest toward your hands on the floor. Lift your left leg, moving your knee toward your elbow. Pause for a moment in this position before lowering your leg and lifting your body again. Repeat this movement with your opposite leg on the next repetition.", imageSrc: "https://images.contentstack.io/v3/assets/blt45c082eaf9747747/blt3abae82dd3cb95c0/61f8246d110d4e7d7a02cc28/spiderman-pushups-_1232x630.png?width=1200&height=630&fit=crop" , times: 8},
+                { name: "Push Up And Roation", work: "With a flat back, slowly lower the body toward the floor, lowering and squeezing the shoulder blades. Push up to the starting position, then lift one up toward ceiling while rotating body. Repeat for the desired number of repetitions. Only move within the range that is controllable.", imageSrc: "https://fitliferegime.com/wp-content/uploads/2023/01/How-To-Do-Rotation-Push-Ups.webp" , times : 12},
+                { name: "Knee Push Ups", work: "Start at the top of the push up position with your hands on the floor, arms straight and underneath your shoulders. Step your knees back behind you so that there is a straight line through your body from your knees up to your head. Engage your glutes, tense your legs and brace your core to keep your body rigid.", imageSrc: "https://media.istockphoto.com/id/1281672733/vector/sport-woman-doing-exercise-with-one-leg-push-up-on-knee-in-2-steps.jpg?s=612x612&w=0&k=20&c=gdzoZnqeaFo8TvTgOclqjlnghhTCcPhSWuWzNH19Swc=" , times: 20},
+                { name: "Cat-Cow Stretch", work: "Keep your hands shoulder-width apart and your knees directly below your hips. Inhale deeply while curving your lower back and bringing your head up, tilting your pelvis up like a cow. Exhale deeply and bring your abdomen in, arching your spine and bringing your head and pelvis down like a cat. Repeat several times..", imageSrc: "https://www.shutterstock.com/image-illustration/yoga-cat-cow-pose-exercises-260nw-1695731086.jpg" , timer : true},
+                { name: "Child's Pose", work: "Lean forward, keeping your buttocks on your heels, and rest your forehead on the floor. Move your arms so they're next to your legs, palms facing up. Inhale and exhale, slowly and deeply, for at least eight breaths. If it's hard for you to rest your forehead on the floor, try this variation.", imageSrc: "https://www.shutterstock.com/image-vector/wide-childs-pose-prasarita-balasana-600nw-2086235617.jpg" , timer : true},
+            ]
+        };
+
+        let currentDayIndex = 0;
+        let currentTaskIndex = 0;
+        let taskTimer;
+        const days = Object.keys(weeklyTasks);
+
+        const dayCirclesContainer = document.getElementById('day-circles-container');
+        const dayIndicator = document.getElementById('day-indicator');
+        const dayTitle = document.getElementById('day-title');
+        const taskDisplay = document.getElementById('task-display');
+        const taskVideo = document.getElementById('task-video');
+        const timerDisplay = document.getElementById('timer');
+        const startButton = document.getElementById('start-button');
+        const nextButton = document.getElementById('next-button');
+        const doneButton = document.getElementById('done-button');
+
+        // Function to create day circles
+        function createDayCircles() {
+            dayCirclesContainer.innerHTML = '';
+            days.forEach((day, index) => {
+                const dayCircle = document.createElement('div');
+                dayCircle.className = 'day-circle';
+                dayCircle.textContent = index + 1;
+                if (index === currentDayIndex) {
+                    dayCircle.classList.add('active-day');
+                }
+                dayCirclesContainer.appendChild(dayCircle);
+            });
+        }
+
+        // Load saved progress from local storage
+        function loadProgress() {
+            const savedDayIndex = localStorage.getItem('currentDayIndex');
+            const savedTaskIndex = localStorage.getItem('currentTaskIndex');
+
+            if (savedDayIndex !== null && savedTaskIndex !== null) {
+                currentDayIndex = parseInt(savedDayIndex, 10);
+                currentTaskIndex = parseInt(savedTaskIndex, 10);
+                return true;
+            }
+            return false;
+        }
+
+        // Save progress to local storage
+        function saveProgress() {
+            localStorage.setItem('currentDayIndex', currentDayIndex);
+            localStorage.setItem('currentTaskIndex', currentTaskIndex);
+        }
+
+        // Function to update the day indicator
+        function updateDayIndicator() {
+            const daySuffix = ["st", "nd", "rd", "th"];
+            const suffix = currentDayIndex < 3 ? daySuffix[currentDayIndex] : daySuffix[3];
+            dayIndicator.textContent = `Currently running: ${currentDayIndex + 1}${suffix} Day`;
+        }
+
+        // Function to display the current task and video
+        function displayTask() {
+    const currentDay = days[currentDayIndex];
+    const tasks = weeklyTasks[currentDay];
+    const task = tasks[currentTaskIndex];
+
+    updateDayIndicator();
+    createDayCircles();
+    dayTitle.innerHTML = `<b>${currentDay}</b>`;
+    taskDisplay.innerHTML = `<b style="font-size: 26px;">${task.name}</b><br> <p><b>How To Do: </b>${task.work}</p>`;
+    taskVideo.src = task.imageSrc ? task.imageSrc : '';
+    taskVideo.style.display = task.imageSrc ? 'block' : 'none'; // Show video if it exists
+    nextButton.disabled = currentTaskIndex >= tasks.length - 1;
+    doneButton.disabled = currentTaskIndex < tasks.length - 1;
+    saveProgress();
+
+    // Display repetitions if the task has them
+    const repetitionDisplay = document.getElementById('repetition-display');
+    if (task.times) {
+        repetitionDisplay.innerHTML = `<div class="repetition-container"><b>Repetitions:</b> ${task.times} times</div>`;
+        repetitionDisplay.style.display = 'block';
+    } else {
+        repetitionDisplay.style.display = 'none';
+    }
+
+    // Start the timer if the task has a timer
+    if (task.timer) {
+        startTaskTimer(30); // 30-second timer
+        repetitionDisplay.style.display = 'none'; // Hide repetitions if the task has a timer
+    } else {
+        timerDisplay.textContent = "";
+        clearInterval(taskTimer);
+    }
+}
+
+
+        // Function to start the task timer
+        // Function to start the task timer
+// Function to start the task timer with a 3-second delay
+function startTaskTimer(seconds) {
+    clearInterval(taskTimer);
+
+    // Play the initial start sound as soon as the timer is triggered
+    const initialStartSound = document.getElementById('initial-start-sound');
+    initialStartSound.play();
+
+    // Display a message indicating that the timer will start soon
+    timerDisplay.innerHTML = `<b>Get ready!</b> The timer will start in 3 seconds...`;
+
+    // Delay for 3 seconds before starting the actual countdown
+    setTimeout(() => {
+        let remainingTime = seconds;
+        timerDisplay.innerHTML = `Time left: <b>${remainingTime} seconds</b>`;
+
+        // Play the start sound when the countdown begins
+        const startSound = document.getElementById('start-sound');
+        startSound.play();
+
+        // Start the countdown timer
+        taskTimer = setInterval(() => {
+            remainingTime--;
+            timerDisplay.innerHTML = `Time left: <b>${remainingTime} seconds</b>`;
+
+            if (remainingTime <= 0) {
+                clearInterval(taskTimer);
+                
+                // Play the finish sound when the timer ends
+                const finishSound = document.getElementById('finish-sound');
+                finishSound.play();
+
+                moveToNextTask();
+            }
+        }, 1000);
+    }, 3000); // 3-second delay before starting the countdown
+}
+
+
+        // Move to the next task
+        function moveToNextTask() {
+            currentTaskIndex++;
+            if (currentTaskIndex >= weeklyTasks[days[currentDayIndex]].length) {
+                currentTaskIndex = 0;
+                doneButton.click(); // Automatically mark day as done if last task finishes
+            } else {
+                displayTask();
+            }
+        }
+
+        // Start button click handler
+        startButton.addEventListener('click', () => {
+            if (!loadProgress()) {
+                currentDayIndex = 0;
+                currentTaskIndex = 0;
+            }
+            startButton.disabled = true;
+            displayTask();
+        });
+
+        // Next button click handler
+        nextButton.addEventListener('click', () => {
+            clearInterval(taskTimer);
+            moveToNextTask();
+        });
+
+        // Done button click handler
+        doneButton.addEventListener('click', () => {
+            const completedDay = days[currentDayIndex];
+            localStorage.removeItem('currentDayIndex');
+            localStorage.removeItem('currentTaskIndex');
+
+            // Move to the next day
+            currentDayIndex++;
+            currentTaskIndex = 0;
+
+            if (currentDayIndex >= days.length) {
+                dayTitle.textContent = "All days completed!";
+                taskDisplay.textContent = "";
+                timerDisplay.textContent = "";
+                taskVideo.style.display = 'none'; // Hide video at the end
+                nextButton.disabled = true;
+                doneButton.disabled = true;
+                startButton.disabled = false;
+                startButton.textContent = "Restart";
+            } else {
+                displayTask();
+            }
+        });
+
+        // Initialize the schedule by checking for saved progress and showing day circles
+        window.onload = function () {
+            loadProgress();
+            createDayCircles();
+            updateDayIndicator();
+        };
+    </script>
+</body>
+</html>

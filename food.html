@@ -1,0 +1,165 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    body{
+    font-family: "Montserrat", sans-serif;
+}
+.food-court{
+    display: flex;
+    flex-direction: column;
+}
+.food-input{
+    width: 21pc;
+    padding: 8px;
+    margin-top: 10px;
+    margin-left: 20px;
+    border-radius: 25px;
+    padding-left: 15px;
+    border: none;
+    outline: none;
+    background: #EEE;
+}
+.head{
+    border-bottom: 1px solid #000;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.head a{
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+.button{
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 125px;
+    font-size: 16px;
+    font-weight: 300;
+    border: none;
+    width: 35%;
+    height: 5%;
+    margin-left: 15px;
+    color: #fff;
+    background: #438889;
+}
+.buttons{
+    display: flex;
+    justify-content: center;
+    margin-top: 23px;
+    margin-left: -10%;
+}
+#total-calories{
+    margin-left: 20px;
+    margin-top: 10px;
+}
+</style>
+<div class="head">
+    <a href="index.html"><svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="#5f6368"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg></a>
+</div>
+<div class="food-court">
+    <input type="text" id="food-item" placeholder="Food Item"  class="food-input" />
+    <input type="number" id="quantity" placeholder="Quantity" min="1" class="food-input"/>
+</div>
+<div class="buttons">
+    <button class="button" id="add-button">Add</button>
+     <button class="button" id="show-button">Total Calories</button>
+ </div>
+<h2 id="total-calories"></h2>
+<script>
+        const predefinedFoodItems = [
+            { foodItem: "Roti", calories: 120 },
+            { foodItem: "Dal", calories: 151 },
+            { foodItem: "Rice", calories: 130 },
+            { foodItem: "Chicken", calories: 220 },
+            { foodItem: "Sprite", calories: 100 },
+            { foodItem: "Samosa", calories: 200 },
+            { foodItem: "Bhindi Bhujiya", calories: 196 },
+            { foodItem: "Gulab Jamun", calories: 150 },
+            { foodItem: "Paratha", calories: 182 },
+            { foodItem: "Aloo Paratha", calories: 240 },
+            { foodItem: "Golgappa", calories: 250 }
+        ];
+
+        let foodList = JSON.parse(localStorage.getItem('foodList')) || predefinedFoodItems.map(item => ({ ...item, quantity: 0 }));
+        const foodListContainer = document.getElementById('food-list');
+        const totalCaloriesDisplay = document.getElementById('total-calories');
+
+        // Function to display food items
+        function displayFoodList() {
+            foodListContainer.innerHTML = '';
+            foodList.forEach((item) => {
+                const div = document.createElement('div');
+                div.className = 'food-item';
+                div.textContent = `${item.foodItem}: ${item.calories} calories x ${item.quantity || 0}`;
+                foodListContainer.appendChild(div);
+            });
+        }
+
+        // Function to save food items to local storage
+        function saveFoodList() {
+            localStorage.setItem('foodList', JSON.stringify(foodList));
+        }
+
+        // Function to load food items from local storage
+        function loadFoodList() {
+            const lastUpdatedDate = localStorage.getItem('lastUpdatedDate');
+            const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+
+            // Check if the local storage was updated today
+            if (lastUpdatedDate !== currentDate) {
+                // Reset the food list to predefined items and update the date
+                foodList = predefinedFoodItems.map(item => ({ ...item, quantity: 0 }));
+                saveFoodList();
+                localStorage.setItem('lastUpdatedDate', currentDate);
+            } else {
+                // Load existing food items and quantities from local storage
+                foodList = JSON.parse(localStorage.getItem('foodList')) || predefinedFoodItems.map(item => ({ ...item, quantity: 0 }));
+            }
+        }
+
+        // Function to add food item
+        document.getElementById('add-button').addEventListener('click', () => {
+            const foodItem = document.getElementById('food-item').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+
+            if (foodItem && !isNaN(quantity) && quantity > 0) {
+                const existingItem = foodList.find(item => item.foodItem.toLowerCase() === foodItem.toLowerCase());
+
+                if (existingItem) {
+                    existingItem.quantity += quantity; // Update quantity if item already exists
+                } else {
+                    alert("Food item not recognized. Please enter a valid food item from the predefined list.");
+                }
+                saveFoodList();
+                displayFoodList();
+                clearInputs();
+            } else {
+                alert("Please fill out all fields correctly.");
+            }
+        });
+
+        // Function to show total calories
+        document.getElementById('show-button').addEventListener('click', () => {
+            const totalCalories = foodList.reduce((total, item) => {
+                return total + (item.calories * (item.quantity || 0));
+            }, 0);
+            totalCaloriesDisplay.innerHTML = `<p>Total Calories: <b>${totalCalories}</b></p>`;
+        });
+
+        // Function to clear inputs
+        function clearInputs() {
+            document.getElementById('food-item').value = '';
+            document.getElementById('quantity').value = '';
+        }
+
+        // Load food items on page load
+        window.onload = function () {
+            loadFoodList();
+            displayFoodList();
+        };
+</script>

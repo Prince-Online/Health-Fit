@@ -1,0 +1,174 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: "Montserrat", sans-serif;
+}
+.button{
+    margin-left: 10px;
+    padding: 4px;
+}
+.option h2{
+    font-size: 20px;
+    font-weight: 300;
+}
+#counter{
+    display: flex;
+    margin-top: 18px;
+    width: 92%;
+    font-size: 22px;
+    margin-left: 10px;
+    font-weight: 700;
+}
+table{
+    margin-top: 10px;
+    justify-content: center;
+    display: grid;
+}
+th, td{
+    padding: 4px;
+    width: 4pc;
+    text-align: center;
+    height: 2pc;
+    border: 1px solid;
+}
+.option{
+    margin-left: 10px;
+    display: flex;
+    margin-top: 10px;
+}
+    </style>
+</head>
+<body>
+    <div class="option">
+        <h2>Not Waste MB</h2>&nbsp;&nbsp;&nbsp;
+        <button class="button" onclick="handleClick('mb', true)">Yes</button>
+        <button class="button" onclick="handleClick('mb', false)">No</button>
+    </div>
+
+    <div class="option">
+        <h2>Prepare YT Vdo</h2>&nbsp;
+        <button class="button" onclick="handleClick('code', true)">Yes</button>
+        <button class="button" onclick="handleClick('code', false)">No</button>
+    </div>
+
+    <div class="option">
+        <h2>Watching  BM</h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="button" onclick="handleClick('ht', true)">Yes</button>
+        <button class="button" onclick="handleClick('ht', false)">No</button>
+    </div>
+
+    <div id="counter">
+        <p>MB: <span id="mb-count">0</span></p>&nbsp;
+        <p>Code: <span id="code-count">0</span></p>&nbsp;
+        <p>Video: <span id="ht-count">0</span></p>
+    </div>
+
+    <table id="streak-table">
+        <thead>
+            <tr>
+                <th style="width: 8pc;">Date</th>
+                <th>Option</th>
+                <th>Response</th>
+            </tr>
+        </thead>
+        <tbody id="streak-body"></tbody>
+    </table>
+
+    <script>
+        const streakBody = document.getElementById('streak-body');
+
+        // Function to load counts and streak from local storage
+        function loadCounts() {
+            const mbCount = parseInt(localStorage.getItem('mbCount')) || 0;
+            const codeCount = parseInt(localStorage.getItem('codeCount')) || 0;
+            const htCount = parseInt(localStorage.getItem('htCount')) || 0;
+
+            document.getElementById('mb-count').textContent = mbCount;
+            document.getElementById('code-count').textContent = codeCount;
+            document.getElementById('ht-count').textContent = htCount;
+
+            loadStreak();
+        }
+
+        // Function to load and display streak data
+        function loadStreak() {
+            const streakData = JSON.parse(localStorage.getItem('streakData')) || [];
+            streakBody.innerHTML = '';
+
+            streakData.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td style="width: 8pc;">${entry.date}</td><td>${entry.option}</td><td style="width: 5pc;">${entry.response}</td>`;
+                streakBody.appendChild(row);
+            });
+        }
+
+        // Function to handle Yes/No clicks
+        function handleClick(option, isYes) {
+            const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+            const response = isYes ? 'Yes' : 'No';
+
+            if (isYes) {
+                // Increment the count if "Yes" is clicked
+                const currentCount = parseInt(localStorage.getItem(option + 'Count')) || 0;
+                localStorage.setItem(option + 'Count', currentCount + 1);
+                updateStreak(currentDate, option, response);
+            } else {
+                updateStreak(currentDate, option, response);
+                localStorage.setItem(option + 'Count', 0); // Reset count to zero
+            }
+
+            loadCounts(); // Update the display
+        }
+
+        // Function to update streak and log responses
+        function updateStreak(currentDate, option, response) {
+            const streakData = JSON.parse(localStorage.getItem('streakData')) || [];
+
+            // Check if today is already logged
+            const todayEntry = streakData.find(entry => entry.date === currentDate && entry.option === option);
+            if (todayEntry) {
+                todayEntry.response = response; // Update today's response
+            } else {
+                streakData.push({ date: currentDate, option: option, response: response }); // Add new entry for today
+            }
+
+            localStorage.setItem('streakData', JSON.stringify(streakData));
+
+            // Check streak continuity
+            if (response === 'No') {
+                const lastEntry = streakData[streakData.length - 2]; // Check the previous day for the same option
+                if (lastEntry && lastEntry.option === option && lastEntry.response === 'Yes') {
+                    alert("Streak Broken for " + option + "!");
+                }
+            }
+        }
+
+        // Function to reset counts at midnight
+        function resetCountsAtMidnight() {
+            const lastUpdatedDate = localStorage.getItem('lastUpdatedDate');
+            const currentDate = new Date().toISOString().split('T')[0];
+
+            // Check if the local storage was updated today
+            if (lastUpdatedDate !== currentDate) {
+                // Reset counts
+                ['mbCount', 'codeCount', 'htCount'].forEach((key) => {
+                    localStorage.setItem(key, '0');
+                });
+                localStorage.setItem('lastUpdatedDate', currentDate); // Update the last updated date
+            }
+        }
+
+        // Load counts on page load
+        window.onload = function () {
+            loadCounts();
+            resetCountsAtMidnight(); // Check if it needs to reset counts
+        };
+    </script>
+</body>
+</html>

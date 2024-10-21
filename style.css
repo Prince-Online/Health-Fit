@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	font-family: "Montserrat", sans-serif;
+}
+video{
+	display: none;
+}
+#day-circles-container{
+	display: flex;
+    justify-content: center;
+    margin-left: -10px;
+    border-bottom: 1px solid;
+    padding: 10px;
+}
+.day-circle{
+	margin-left: 10px;
+    padding: 4px;
+    width: 32px;
+    border-radius: 25px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 32px;
+    background: #31a9d9;
+    cursor: pointer;
+    color: #FFF;
+}
+.active-day{
+	background: #7fdaff;
+    color: #5a5050;
+}
+#day-indicator{
+	font-weight: 500;
+    font-size: 21px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.button-con{
+	margin-left: 5px;
+	margin-top: 10px;
+}
+.button{
+	padding: 8px;
+    width: 21%;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 300;
+    border: none;
+    margin-left: 15px;
+    color: #fff;
+    background: #438889;
+    max-width: 100px;
+}
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+#task-video{
+  width: 250px;
+}
+#day-title{
+    margin-left: 20px;
+    font-size: 22px;
+    margin-top: 10px;
+}
+#task-display{
+    font-size: 22px;
+    margin-left: 20px;
+    margin-top: 1px;
+    width: 83%;
+}
+#task-video{
+    width: 83%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+    height: 23%;
+    display: none;
+    border-radius: 15px;
+}
+#timer , #repetition-display{
+  font-size: 24px;
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.other-parts button{
+  border: none;
+  background: transparent;
+  margin-left: 10px;
+}
+.other-parts{
+  border-bottom: 1px solid;
+  padding: 6px;
+}
+.other-parts a{
+  margin-left: 10px;
+}
+.a-wat{
+  margin-left: 10pc;
+}
